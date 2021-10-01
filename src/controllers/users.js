@@ -1,6 +1,7 @@
-import { notFound } from '../middlewares/errorHandler';
-import { createUser, getAllUsers, getUser } from '../services/userService';
+import { conflict, notFound, unauthorized } from '../middlewares/errorHandler';
+import { createUser, getAllUsers, getUser, getUserbyEmail } from '../services/userService';
 import logger from '../utils/logger';
+import { authUser } from '../services/authService';
 
 const usersController = {
     /**
@@ -36,6 +37,12 @@ const usersController = {
      */
 
     async createUser(req, res, next) {
+        const checkUserExists = await getUserbyEmail(req.body.email)
+
+        if (checkUserExists) {
+            return conflict(req, res, 'Email has already been taken.')
+        }
+
         createUser(req.body)
             .then((data) => res.json({ data }))
             .catch((err) => {
@@ -43,6 +50,30 @@ const usersController = {
                 next(err);
             });
     },
+
+    /**
+     * User Login
+     */
+    async authLogin(req, res, next) {
+        await authUser(req.body, (err, data) => {
+            if (err || data.response === "errors") {
+                return unauthorized(req, res, "Invalid email or password")
+            }
+            res.json({ data });
+        });
+
+    },
+
+    /**
+     * Get auth detail
+     */
+
+    async getAuthDetail(req, res, next) {
+        // get auth detail from req (middleware)
+        const { user } = req;
+
+        res.json({ data: user })
+    }
 
 };
 

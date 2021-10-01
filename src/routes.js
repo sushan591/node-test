@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import { usersController } from './controllers';
 
 import userRoutes from './routes/userRoutes';
+import authRoutes from './routes/authRoutes';
 
 
 /**
@@ -22,5 +22,6 @@ router.get('/', (req, res) => {
 });
 
 router.use('/users', userRoutes);
+router.use('/auth', authRoutes);
 
 export default router;

@@ -1,7 +1,6 @@
 import { User } from './../models';
 import logger from '../utils/logger';
 import constants from './../utils/constants';
-import { Boom } from '@hapi/boom';
 
 /**
  * Get all users.
@@ -24,7 +23,6 @@ export function getUser(id) {
             id,
         },
     })
-
 }
 
 /**
@@ -40,4 +38,16 @@ export async function createUser(body) {
         });
 }
 
-
+/**
+ * Get a user by email.
+ *
+ * @param   {String}  email
+ * @returns {Promise}
+ */
+export function getUserbyEmail(email) {
+    return User.findOne({
+        where: {
+            email,
+        },
+    })
+}

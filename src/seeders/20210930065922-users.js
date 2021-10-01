@@ -13,8 +13,8 @@ module.exports = {
     if (!userID) {
       let data = [
         {
-          username: "admin",
-          password: "admin",
+          name: "admin",
+          password: "Password@123",
           email: "admin@oc.com",
           phone: "9849123456",
         }

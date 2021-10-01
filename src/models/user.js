@@ -44,5 +44,33 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
+  User.prototype.correctPassword = function (candidatePwd) {
+    return User.encryptPassword(candidatePwd) === this.password();
+  };
+
+  User.generateSalt = function () {
+    return crypto.randomBytes(16).toString("base64");
+  };
+
+  User.encryptPassword = function (plainText) {
+    return crypto
+      .createHash("RSA-SHA256")
+      .update(plainText)
+      .digest("hex");
+  };
+
+  const setPassword = (user) => {
+    if (user.changed("password")) {
+      user.password = User.encryptPassword(user.password());
+    }
+  };
+
+  User.beforeCreate(setPassword);
+  User.beforeUpdate(setPassword);
+  User.beforeBulkCreate((users) => {
+    users.forEach(setPassword);
+  });
+
+
   return User;
 };

@@ -68,3 +68,51 @@ export function genericErrorHandler(err, req, res, next) {
 
   res.status(error.code).json({ error });
 }
+
+
+/**
+ * Error response middleware for 422 not found.
+ *
+ * @param {Object} req
+ * @param {Object} res
+ */
+export function unprocessableEntity(req, res, message) {
+  res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({
+    error: {
+      code: HttpStatus.UNPROCESSABLE_ENTITY,
+      message: message ? message : HttpStatus.getStatusText(HttpStatus.UNPROCESSABLE_ENTITY)
+    }
+  });
+}
+
+
+/**
+ * Error response middleware for 401 unauthorized.
+ *
+ * @param {Object} req
+ * @param {Object} res
+ */
+export function unauthorized(req, res, message) {
+  res.status(HttpStatus.UNAUTHORIZED).json({
+    error: {
+      code: HttpStatus.UNAUTHORIZED,
+      message: message ? message : HttpStatus.getStatusText(HttpStatus.UNAUTHORIZED)
+    }
+  });
+}
+
+
+/**
+ * Error response middleware for 409 conflict.
+ *
+ * @param {Object} req
+ * @param {Object} res
+ */
+export function conflict(req, res, message) {
+  res.status(HttpStatus.CONFLICT).json({
+    error: {
+      code: HttpStatus.CONFLICT,
+      message: message ? message : HttpStatus.getStatusText(HttpStatus.CONFLICT)
+    }
+  });
+}

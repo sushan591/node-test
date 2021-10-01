@@ -7,9 +7,17 @@ import * as errorHandler from './middlewares/errorHandler';
 import json from './middlewares/json';
 import routes from './routes';
 import logger, { logStream } from './utils/logger';
+// Passport Config
+import passport from 'passport';
+require("./config/passport")(passport);
 
 
 const app = express();
+
+// Passport middleware
+// app.use(passport.initialize());
+// app.use(passport.session());
+
 
 const APP_PORT =
   (process.env.NODE_ENV === 'test' ? process.env.TEST_APP_PORT : process.env.APP_PORT) || process.env.PORT || '3000';
