@@ -13,10 +13,11 @@ module.exports = {
     if (!userID) {
       let data = [
         {
-          name: "admin",
+          name: "Super Admin",
           password: "Password@123",
-          email: "admin@oc.com",
+          email: "sa@outccodesoftware.com",
           phone: "9849123456",
+          role_id: 1
         }
       ];
       return await User.bulkCreate(data);

@@ -20,7 +20,7 @@ const createUserSchema = Joi.object({
 
 const updateUserSchema = Joi.object({
     name: Joi.string().label('Name').max(225).optional(),
-    email: Joi.string().label('Email').required(),
+    email: Joi.string().label('Email').optional(),
     phone: Joi.string().label('Phone').max(20).optional(),
     status: Joi.boolean().label('Status').optional(),
     image_url: Joi.string().label('Image').optional(),
@@ -28,8 +28,13 @@ const updateUserSchema = Joi.object({
     updated_by: Joi.number().label('Updated By').required(),
 });
 
-const updatePasswordSchema = Joi.object({
-    old_password: Joi.string().label('Old Password').required(),
+const forgotPasswordSchema = Joi.object({
+    email: Joi.string().label('Email').required(),
+    base_url: Joi.string().label('URL').required(),
+});
+
+const resetPasswordSchema = Joi.object({
+    token: Joi.string().label('Reset Token').required(),
     password: Joi.string().label('Password').regex(pattern).required(),
     confirm_password: Joi.string().label('Confirm Password').valid(Joi.ref('password')).required(),
 });
@@ -64,17 +69,31 @@ async function userUpdateValidator(req, res, next) {
 
 
 /**
- * Validate update user password request.
+ * Validate forgot password request.
  *
  * @param   {Object}   req
  * @param   {Object}   res
  * @param   {Function} next
  * @returns {Promise}
  */
-async function userUpdatePasswordValidator(req, res, next) {
-    return validate(req.body, updatePasswordSchema)
+async function forgotPasswordValidator(req, res, next) {
+    return validate(req.body, forgotPasswordSchema)
         .then(() => next())
         .catch((err) => next(err));
 }
 
-export { userInsertValidator, userUpdateValidator, userUpdatePasswordValidator };
+
+/**
+ * Validate reset password request.
+ *
+ * @param   {Object}   req
+ * @param   {Object}   res
+ * @param   {Function} next
+ * @returns {Promise}
+ */
+async function resetPasswordValidator(req, res, next) {
+    return validate(req.body, resetPasswordSchema)
+        .then(() => next())
+        .catch((err) => next(err));
+}
+export { userInsertValidator, userUpdateValidator, forgotPasswordValidator, resetPasswordValidator };

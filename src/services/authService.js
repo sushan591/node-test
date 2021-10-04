@@ -44,7 +44,7 @@ const authUser = async function (userInfo, callback) {
         if (result) {
           await user
             .update({
-              verifyToken: null
+              reset_token: null
             })
             .then(async data => {
               const { token, expiration } = await issueToken(user.id);

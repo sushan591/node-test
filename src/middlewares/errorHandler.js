@@ -9,11 +9,11 @@ import buildError from '../utils/buildError';
  * @param {Object} req
  * @param {Object} res
  */
-export function notFound(req, res) {
+export function notFound(req, res, message) {
   res.status(HttpStatus.NOT_FOUND).json({
     error: {
       code: HttpStatus.NOT_FOUND,
-      message: HttpStatus.getStatusText(HttpStatus.NOT_FOUND)
+      message: message ? message : HttpStatus.getStatusText(HttpStatus.NOT_FOUND)
     }
   });
 }
@@ -113,6 +113,22 @@ export function conflict(req, res, message) {
     error: {
       code: HttpStatus.CONFLICT,
       message: message ? message : HttpStatus.getStatusText(HttpStatus.CONFLICT)
+    }
+  });
+}
+
+
+/**
+ * Error response middleware for 403 forbidden.
+ *
+ * @param {Object} req
+ * @param {Object} res
+ */
+export function forbidden(req, res, message) {
+  res.status(HttpStatus.FORBIDDEN).json({
+    error: {
+      code: HttpStatus.FORBIDDEN,
+      message: message ? message : HttpStatus.getStatusText(HttpStatus.FORBIDDEN)
     }
   });
 }

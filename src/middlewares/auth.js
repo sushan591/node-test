@@ -1,7 +1,6 @@
 import passport from 'passport'
 import { unauthorized } from './errorHandler';
 require("../middlewares/passport")(passport);
-const jwt = require("jsonwebtoken");
 
 
 export const validateAuthUser = function (req, res, next) {
