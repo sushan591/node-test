@@ -71,6 +71,15 @@ module.exports = (sequelize, DataTypes) => {
     users.forEach(setPassword);
   });
 
+  User.associate = function (models) {
+    User.hasOne(models.Role, {
+      sourceKey: "role_id",
+      foreignKey: "id",
+      as: "UserRole",
+    });
+  };
+
+
 
   return User;
 };

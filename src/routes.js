@@ -2,6 +2,7 @@ import { Router } from 'express';
 
 import userRoutes from './routes/userRoutes';
 import authRoutes from './routes/authRoutes';
+import roleRoutes from './routes/roleRoutes';
 
 
 /**
@@ -23,5 +24,6 @@ router.get('/', (req, res) => {
 
 router.use('/users', userRoutes);
 router.use('/auth', authRoutes);
+router.use('/roles', roleRoutes);
 
 export default router;

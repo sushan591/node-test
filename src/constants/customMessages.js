@@ -2,7 +2,7 @@ const customMessages = {
 
     //users
     ERROR_LISTING_USERS: 'Error on listing users.',
-    ERROR_FETCHING_USER_ID: 'Error while fetching user with ID.',
+    ERROR_FETCHING_USER_ID: 'Error while fetching user with ID',
     EMAIL_ALREADY_USED: 'Email has already been taken.',
     ERROR_CREATING_USER: 'Error while creating new user.',
     ERROR_SIGN_IN: 'Invalid email or password.',
@@ -19,6 +19,9 @@ const customMessages = {
     RESET_PASSWORD_FAILURE: 'Password reset has failed.',
     RESET_PASSWORD_SUCCESS: 'Password reset successfully.',
 
+    //roles
+    ERROR_FETCHING_ROLE_ID: 'Error while fetching role with ID.',
+    NO_ROLE_FOUND: 'No role found.',
 
 
     // smtp

@@ -14,11 +14,6 @@ require("./config/passport")(passport);
 
 const app = express();
 
-// Passport middleware
-// app.use(passport.initialize());
-// app.use(passport.session());
-
-
 const APP_PORT =
   (process.env.NODE_ENV === 'test' ? process.env.TEST_APP_PORT : process.env.APP_PORT) || process.env.PORT || '3000';
 const APP_HOST = process.env.APP_HOST || '0.0.0.0';
@@ -39,6 +34,10 @@ app.use(json);
 
 // API Routes
 app.use('/api', routes);
+
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Error Middleware
 app.use(errorHandler.genericErrorHandler);
