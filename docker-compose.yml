@@ -1,0 +1,36 @@
+version: "3.7"
+
+services:
+    node-db:
+        container_name: node-db
+        image: mysql
+        restart: always
+        environment:
+            - MYSQL_PASSWORD=password
+            - MYSQL_ROOT_PASSWORD=password
+            - MYSQL_DATABASE=test-db
+        volumes:
+            - db-config:/etc/mysql
+            - db-data:/var/lib/mysql
+        ports:
+            - 3307:3306
+
+    node-svc:
+        container_name: node-svc
+        restart: always
+        build:
+            context: .
+            target: dev
+        volumes:
+            - ./src:/app/src/
+            - ./uploads:/app/uploads/
+        ports:
+            - 8002:8002
+        depends_on:
+            - node-db
+        links:
+            - node-db
+
+volumes:
+    db-config:
+    db-data:

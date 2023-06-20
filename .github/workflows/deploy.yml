@@ -1,0 +1,38 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Node.js deploy to test environment
+
+on:
+    push:
+        branches: [role_added]
+
+jobs:
+    build:
+        runs-on: self-hosted
+
+        strategy:
+            matrix:
+                node-version: [16.x]
+                # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+        steps:
+            - run: |
+                if [-d uploads/]; then
+                  cp -r uploads/ /var/www/html/
+                fi
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v2
+              with:
+                  node-version: ${{ matrix.node-version }}
+            - run: rm -rf node_modules
+            - run: yarn install
+            - run: cp /var/www/html/.env.backend .env
+            - run: |
+                if [-d /var/www/html/uploads]; then
+                  cp -r /var/www/html/uploads/* uploads/
+                fi
+            - run: docker compose stop && docker compose up -d --build
+            - run: docker exec node-svc yarn migrate
+            - run: docker exec node-svc yarn seed
