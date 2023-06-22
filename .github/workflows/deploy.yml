@@ -28,7 +28,18 @@ jobs:
                   node-version: ${{ matrix.node-version }}
             - run: rm -rf node_modules
             - run: yarn install
-            - run: cp /var/www/html/.env.backend .env
+            - name: "Make .env file"
+              run: |
+                touch .env
+                echo APP_PER_PAGE==${{ secrets.APP_PER_PAGE }} >> .env
+                echo DB_HOST==${{ secrets.DB_HOST }} >> .env
+                echo DB_NAME==${{ secrets.DB_NAME }} >> .env
+                echo DB_PASSWORD==${{ secrets.DB_PASSWORD }} >> .env
+                echo DB_PORT==${{ secrets.DB_PORT }} >> .env
+                echo DB_USER==${{ secrets.DB_USER }} >> .env
+                echo JWT_ENCRYPTION==${{ secrets.JWT_ENCRYPTION }} >> .env
+                echo JWT_EXPIRATION==${{ secrets.JWT_EXPIRATION }} >> .env
+                echo LOG_LEVEL==${{ secrets.LOG_LEVEL }} >> .env
             - run: |
                 if [-d /var/www/html/uploads]; then
                   cp -r /var/www/html/uploads/* uploads/
